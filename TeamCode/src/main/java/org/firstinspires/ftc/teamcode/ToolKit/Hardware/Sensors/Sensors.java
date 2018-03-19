@@ -13,9 +13,7 @@ import org.firstinspires.ftc.teamcode.ToolKit.Robot;
  */
 
 public abstract class Sensors extends Robot {
-    public BNO055IMU imu;
     public ColorSensor sensorColor;
-    public GyroSensor gyro;
     public OpticalDistanceSensor ods;
     public DistanceSensor sensorDistance;
 
@@ -26,5 +24,4 @@ public abstract class Sensors extends Robot {
 
     public abstract Color readColor();
 
-    public abstract double Heading();
 }

@@ -11,10 +11,12 @@ import static java.lang.Math.PI;
 public abstract class DriveTrain extends Robot {
     public double speedmultiplier = 1.0;
     public ElapsedTime runtime = new ElapsedTime();
-    private int encoderticks;
+    public int encoderticks;
     public void setDefaultSpeed(){
         speedmultiplier = 1.0;
     }
+    protected double wheelCircumference;
+
     public DriveTrain(int encoderTicks, double wheelDiameter){
         this.encoderticks = encoderTicks;
         double wheelCircumference = Math.PI * wheelDiameter;
@@ -52,15 +54,12 @@ public abstract class DriveTrain extends Robot {
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
     public abstract void stop();
-
-    public abstract void setTargetPosition(int target);
-
-
+    public abstract boolean isBusy();
     public abstract void setMotorPower(double power);
-
-    public abstract void setZeroPowerBehavior();
-
+    public abstract void driveByTime(double speed, int seconds, Direction direction, Telemetry telemetry);
+    public abstract void encoderDrive(double speed, int distance, Direction direction, Telemetry telemetry);
+    public abstract void setTargetPosition(int targetPosition);
     public abstract void setMode(DcMotor.RunMode runMode);
-
 }

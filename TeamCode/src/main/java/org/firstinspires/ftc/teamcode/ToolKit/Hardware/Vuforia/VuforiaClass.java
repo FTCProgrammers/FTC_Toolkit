@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ToolKit.Hardware.Sensors;
+package org.firstinspires.ftc.teamcode.ToolKit.Hardware.Vuforia;
 import com.vuforia.HINT;
 import com.vuforia.Vuforia;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -7,10 +7,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.R;
-import org.firstinspires.ftc.teamcode.ToolKit.Utilities.CameraSide;
 import org.firstinspires.ftc.teamcode.ToolKit.Utilities.Constants;
-import org.firstinspires.ftc.teamcode.ToolKit.Utilities.CryptoColumn;
-import org.firstinspires.ftc.teamcode.ToolKit.Utilities.PhoneOrientation;
 
 public class VuforiaClass {
     private VuforiaLocalizer.Parameters vuforiaSettings;

@@ -16,7 +16,6 @@ public class RevSensorClass extends Sensors {
     public void init(HardwareMap hwMap) {
         sensorColor = hwMap.get(ColorSensor.class, "cds");
         sensorDistance = hwMap.get(DistanceSensor.class, "cds");
-        imuParamInit();
     }
 
     @Override
@@ -46,37 +45,5 @@ public class RevSensorClass extends Sensors {
     public double readDistance() {
         return sensorDistance.getDistance(DistanceUnit.INCH);
     }
-
-    private void imuParamInit() {
-        //This Initializes the Parameters for the IMU
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        parameters.loggingEnabled = true;
-        parameters.loggingTag = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        imu.initialize(parameters);
-    }
-
-    public double Heading() {
-        //this makes it so the heading range is from -180-180
-        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        return orientation.firstAngle;
-    }
-
-    public double getHeading() throws InterruptedException {
-        //this makes it so the heading range is from 0-360 instead of -180-180
-        double heading = Heading();
-        idle();
-        if (heading < 0) {
-            idle();
-            heading += 360;
-            idle();
-        }
-        idle();
-        return heading;
-    }
-
 
 }

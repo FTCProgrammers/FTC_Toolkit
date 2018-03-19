@@ -34,13 +34,6 @@ public class MecanumDriveTrain extends OmniDirectionalDriveTrain {
         rightback.setPower(power);
     }
 
-    @Override
-    public void setZeroPowerBehavior() {
-        leftfront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightfront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftback.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightback.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    }
 
     @Override
     public void setMode(DcMotor.RunMode runMode) {
@@ -64,11 +57,13 @@ public class MecanumDriveTrain extends OmniDirectionalDriveTrain {
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-        setZeroPowerBehavior();
         stop();
     }
 
-
+    @Override
+    public boolean isBusy() {
+        return leftback.isBusy() || leftfront.isBusy() || rightfront.isBusy() || rightback.isBusy();
+    }
 
     @Override
     public void encoderDrive(double speed, int distance, double angle, Telemetry telemetry) {
