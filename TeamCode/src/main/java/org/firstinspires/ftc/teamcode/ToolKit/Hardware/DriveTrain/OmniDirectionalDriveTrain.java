@@ -37,5 +37,4 @@ public abstract class OmniDirectionalDriveTrain extends DriveTrain {
 
     public abstract void drive(double x, double y, double z);
     public abstract void rotate(double z);
-    public abstract void encoderDrive(double speed, int distance, double angle, Telemetry telemetry);
 }

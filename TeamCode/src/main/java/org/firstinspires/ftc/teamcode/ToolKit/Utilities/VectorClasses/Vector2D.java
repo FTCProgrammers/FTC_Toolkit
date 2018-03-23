@@ -23,7 +23,7 @@ public class Vector2D {
     /**
      * Constructs an empty vector
      */
-    public Vector2D() {
+    private Vector2D() {
         this(0, 0);
     }
 

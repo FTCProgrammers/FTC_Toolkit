@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.ToolKit.Utilities.Toggle;
 import static java.lang.Math.*;
+
 /**
  * Created by shaunaksarker on 3/19/18.
  */
@@ -135,24 +136,29 @@ public class TankDriveTrain extends DriveTrain {
 
     @Override
     public void driveByTime(double speed, int seconds, Direction direction, Telemetry telemetry) {
+        runtime.reset();
+        switch (direction){
+            case FORWARDS:
+                while (runtime.seconds() < seconds){
+                    drive(speed,speed);
+                }
+                break;
 
+            case BACKWARDS:
+                while (runtime.seconds() < seconds){
+                    drive(-speed,-speed);
+                }
+                break;
+        }
     }
 
     public void turn(double power, double angle) throws InterruptedException {
         double heading = getHeading();
         idle();
-        if (angle > heading){
+        while(angle != heading){
             idle();
-            while(angle != heading){
-                idle();
-                drive(-power,power);
-            }
-        } else if (angle < heading){
+            drive(-power,power);
             idle();
-            while (angle != heading){
-                idle();
-                drive(power,-power);
-            }
         }
     }
 

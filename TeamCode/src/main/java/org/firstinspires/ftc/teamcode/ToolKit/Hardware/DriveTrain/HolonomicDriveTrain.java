@@ -1,6 +1,4 @@
 package org.firstinspires.ftc.teamcode.ToolKit.Hardware.DriveTrain;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -21,8 +19,16 @@ public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
     }
 
     @Override
-    public void turn(double power, double angle) {
-
+    public void turn(double power, double angle) throws InterruptedException {
+        stop();
+        double startHeading = heading();
+        double currentHeading = getHeading() - startHeading;
+        while(abs(currentHeading - angle) > 1) { //1 degree error margin
+            currentHeading = getHeading() - startHeading;
+            rotate(-power * (Math.signum(angle - currentHeading)));
+            idle();
+        }
+        stop();
     }
 
     @Override
@@ -67,8 +73,7 @@ public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
         return heading;
     }
 
-    @Override
-    public void encoderDrive(double speed, int distance, double angle, Telemetry telemetry) {
+    public void move(double speed, int distance, double angle, Telemetry telemetry) {
 
     }
 
@@ -102,7 +107,7 @@ public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
         x*=speedmultiplier;
         y*=speedmultiplier;
         z*=speedmultiplier;
-        //This allows
+        //This allows the speed multiplier to work
         if(abs(x) < 0.01 && abs(y) < 0.01 && abs(z) < 0.01) {
             stop();
         } else {

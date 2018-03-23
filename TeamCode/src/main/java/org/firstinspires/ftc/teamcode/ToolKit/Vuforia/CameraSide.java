@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ToolKit.Hardware.Vuforia;
+package org.firstinspires.ftc.teamcode.ToolKit.Vuforia;
 
 /**
  * Created by shaunaksarker on 3/10/18.

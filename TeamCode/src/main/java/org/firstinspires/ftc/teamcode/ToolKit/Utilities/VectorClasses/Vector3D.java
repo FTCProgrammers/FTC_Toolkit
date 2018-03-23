@@ -22,7 +22,7 @@ public class Vector3D {
     /**
      * Constructs an empty vector
      */
-    public Vector3D() {
+    private Vector3D() {
         this(0, 0, 0);
     }
 
