@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.ToolKit.Hardware.Sensors;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -31,5 +30,4 @@ public class MRSensorClass extends Sensors {
         }
         return blue ? Color.BLUE : (red ? Color.RED : Color.ELSE);
     }
-
 }

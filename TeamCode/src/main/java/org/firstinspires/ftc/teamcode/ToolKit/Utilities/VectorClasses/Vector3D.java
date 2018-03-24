@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.ToolKit.Utilities.VectorClasses;
 
-
-
 import static java.lang.Math.*;
 
 /**

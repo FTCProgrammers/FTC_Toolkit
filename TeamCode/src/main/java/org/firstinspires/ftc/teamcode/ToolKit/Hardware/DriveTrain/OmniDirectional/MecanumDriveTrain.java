@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ToolKit.Hardware.DriveTrain;
+package org.firstinspires.ftc.teamcode.ToolKit.Hardware.DriveTrain.OmniDirectional;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -12,6 +12,16 @@ public class MecanumDriveTrain extends OmniDirectionalDriveTrain {
     private Toggle changeControl = new Toggle();
     public MecanumDriveTrain(int encoderTicks, double wheelDiameter) {
         super(encoderTicks, wheelDiameter);
+    }
+
+    @Override
+    public double heading() {
+        return 0;
+    }
+
+    @Override
+    public double getHeading() {
+        return 0;
     }
 
     @Override

@@ -10,16 +10,15 @@ public abstract class DriveTrain extends Robot {
     public double speedmultiplier = 1.0;
     public ElapsedTime runtime = new ElapsedTime();
     public int encoderticks;
+    protected static double wheelCircumference;
 
     public void setDefaultSpeed(){
         speedmultiplier = 1.0;
     }
 
-    protected static double wheelCircumference;
-
     public DriveTrain(int encoderTicks, double wheelDiameter){
         this.encoderticks = encoderTicks;
-        double wheelCircumference = Math.PI * wheelDiameter;
+        wheelCircumference = Math.PI * wheelDiameter;
     }
 
     public enum Direction {
@@ -54,6 +53,8 @@ public abstract class DriveTrain extends Robot {
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+    public abstract double heading();
+    public abstract double getHeading();
     public abstract void turn(double power, double angle) throws InterruptedException;
     public abstract void driveControlled(Gamepad gamepad);
     public abstract void stop();

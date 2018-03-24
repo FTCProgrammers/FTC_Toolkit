@@ -1,14 +1,11 @@
 package org.firstinspires.ftc.teamcode.ToolKit.Utilities.VectorClasses;
 
-/**
- * Created by shaunaksarker on 3/21/18.
- */
-
 import static java.lang.Math.*;
 
 /**
  * A vector containing two components
  */
+
 public class Vector2D {
     /**
      * A constant for an empty vector
@@ -33,6 +30,7 @@ public class Vector2D {
      * @param x The first component
      * @param y The second component
      */
+
     public Vector2D(double x, double y) {
         this.x = x;
         this.y = y;

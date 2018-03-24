@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class RevSensorClass extends Sensors {
+
     public void init(HardwareMap hwMap) {
         sensorColor = hwMap.get(ColorSensor.class, "cds");
         sensorDistance = hwMap.get(DistanceSensor.class, "cds");

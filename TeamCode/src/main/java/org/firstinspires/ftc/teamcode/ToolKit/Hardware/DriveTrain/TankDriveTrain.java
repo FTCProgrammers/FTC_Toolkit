@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.ToolKit.Hardware.DriveTrain;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -12,18 +13,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.ToolKit.Utilities.Toggle;
 import static java.lang.Math.*;
 
-/**
- * Created by shaunaksarker on 3/19/18.
- */
-
 public class TankDriveTrain extends DriveTrain {
+
     private DcMotor rightfront,leftfront,rightback,leftback;
     private BNO055IMU imu;
     private Toggle preciseToggle = new Toggle();
-    private Toggle newFrontToggle = new Toggle();
+    private Toggle newFrontToggle = new Toggle(0.3);
+
     public TankDriveTrain(int encoderTicks, double wheelDiameter) {
         super(encoderTicks, wheelDiameter);
     }
+
     @Override
     public void init(HardwareMap hwMap) {
         leftfront = hwMap.dcMotor.get("lf");
@@ -31,7 +31,15 @@ public class TankDriveTrain extends DriveTrain {
         leftback = hwMap.dcMotor.get("lb");
         rightback = hwMap.dcMotor.get("rb");
         imu = hwMap.get(BNO055IMU.class, "imu");
-        imuParamInit();
+        //This Initializes the Parameters for the IMU
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        imu.initialize(parameters);
         stop();
     }
 
@@ -62,7 +70,7 @@ public class TankDriveTrain extends DriveTrain {
         rightfront.setPower(0);
     }
 
-    private double heading(){
+    public double heading(){
         //IMU gives a heading between -180 and 180
         Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return orientation.firstAngle;
@@ -77,17 +85,6 @@ public class TankDriveTrain extends DriveTrain {
         return heading;
     }
 
-    private void imuParamInit() {
-        //This Initializes the Parameters for the IMU
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        parameters.loggingEnabled = true;
-        parameters.loggingTag = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        imu.initialize(parameters);
-    }
 
     @Override
     public void driveControlled(Gamepad gamepad) {
@@ -127,6 +124,7 @@ public class TankDriveTrain extends DriveTrain {
         return leftback.isBusy() || leftfront.isBusy() || rightfront.isBusy() || rightback.isBusy();
     }
 
+    @Override
     public void setMotorPower(double power) {
         leftfront.setPower(power);
         rightfront.setPower(power);
@@ -152,6 +150,7 @@ public class TankDriveTrain extends DriveTrain {
         }
     }
 
+    @Override
     public void turn(double power, double angle) throws InterruptedException {
         double heading = getHeading();
         idle();

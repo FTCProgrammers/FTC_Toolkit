@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ToolKit.Hardware.DriveTrain;
+package org.firstinspires.ftc.teamcode.ToolKit.Hardware.DriveTrain.OmniDirectional;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -7,13 +7,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import static java.lang.Math.abs;
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
 
+import static java.lang.Math.*;
 //This class has code for Holonomic Drivetrains
 public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
-
     public HolonomicDriveTrain(int encoderTicks, double wheelDiameter) {
         super(encoderTicks, wheelDiameter);
     }
@@ -59,7 +56,7 @@ public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    private double heading(){
+    public double heading(){
         Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return orientation.firstAngle;
     }
@@ -160,7 +157,7 @@ public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
     public void logTelemetry(Telemetry telemetry) {
         telemetry.addLine("Drivetrain debugging");
         // display encoder positions if it's enabled
-        if(leftfront.getMode() == DcMotor.RunMode.RUN_TO_POSITION || leftfront.getMode() == DcMotor.RunMode.RUN_USING_ENCODER) {
+        if(leftfront.getMode() == DcMotor.RunMode.RUN_TO_POSITION || leftfront.getMode() == DcMotor.RunMode.RUN_USING_ENCODER || isBusy()) {
             try {
                 encoderTelemetry(telemetry);
             } catch (InterruptedException e) {
