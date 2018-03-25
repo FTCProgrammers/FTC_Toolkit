@@ -16,10 +16,10 @@ import static java.lang.Math.*;
  * Created by shaunaksarker on 3/23/18.
  */
 
-public class TwoWheeled extends DriveTrain {
+public class TwoWheeledDriveTrain extends DriveTrain {
     private DcMotor leftMotor, rightMotor;
     private BNO055IMU imu;
-    public TwoWheeled(int encoderTicks, double wheelDiameter) {
+    public TwoWheeledDriveTrain(int encoderTicks, double wheelDiameter) {
         super(encoderTicks, wheelDiameter);
     }
 

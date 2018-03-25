@@ -1,12 +1,17 @@
 package org.firstinspires.ftc.teamcode.FTCToolKit.Hardware.Sensors;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.FTCToolKit.Robot;
 
-/**
- * Created by shaunaksarker on 2/4/18.
- */
-
-public class MRSensorClass extends Sensors {
+public class MRSensorClass extends Robot {
+    public ColorSensor sensorColor;
+    public OpticalDistanceSensor ods;
+    public enum Color {
+        BLUE,RED,ELSE
+    }
     @Override
     public void init(HardwareMap hwMap) {
         sensorColor = hwMap.colorSensor.get("cs");
@@ -18,7 +23,7 @@ public class MRSensorClass extends Sensors {
         telemetry.addData("Color", readColor());
     }
 
-    @Override
+
     public Color readColor() {
         boolean blue = false, red = false;
         if(sensorColor.red() > sensorColor.blue()){

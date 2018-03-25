@@ -4,7 +4,14 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-public class RevSensorClass extends Sensors {
+import org.firstinspires.ftc.teamcode.FTCToolKit.Robot;
+
+public class RevColorDistanceSensorClass extends Robot{
+    public ColorSensor sensorColor;
+    public DistanceSensor sensorDistance;
+    public enum Color {
+        BLUE,RED,ELSE
+    }
 
     public void init(HardwareMap hwMap) {
         sensorColor = hwMap.get(ColorSensor.class, "cds");
@@ -21,7 +28,7 @@ public class RevSensorClass extends Sensors {
             telemetry.addData("Distance", readDistance());}
     }
 
-    @Override
+
     public Color readColor() {
         final int TOLERANCE = 12;
         boolean blueJewel = false, redJewel = false;
