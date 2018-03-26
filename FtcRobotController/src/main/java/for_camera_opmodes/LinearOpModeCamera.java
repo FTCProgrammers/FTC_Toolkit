@@ -1,27 +1,21 @@
 package for_camera_opmodes;
-
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
-import android.graphics.Matrix;
-import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
 
-import java.io.ByteArrayOutputStream;
 
 /**
  * TeleOp Mode
  * <p/>
  * Enables control of the robot via the gamepad
  */
-public class LinearOpModeCamera extends LinearOpMode {
 
+public class LinearOpModeCamera extends LinearOpMode {
   public Camera camera;
   public CameraPreview preview;
 

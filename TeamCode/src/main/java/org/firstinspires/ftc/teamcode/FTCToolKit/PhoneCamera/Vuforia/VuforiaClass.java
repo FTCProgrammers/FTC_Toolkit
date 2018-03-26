@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.FTCToolKit.Vuforia;
+package org.firstinspires.ftc.teamcode.FTCToolKit.PhoneCamera.Vuforia;
 import com.vuforia.HINT;
 import com.vuforia.Vuforia;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;

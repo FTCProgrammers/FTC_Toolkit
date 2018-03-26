@@ -9,12 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
 import static java.lang.Math.*;
-
-/**
- * Created by shaunaksarker on 3/23/18.
- */
 
 public class TwoWheeledDriveTrain extends DriveTrain {
     private DcMotor leftMotor, rightMotor;
@@ -22,7 +17,6 @@ public class TwoWheeledDriveTrain extends DriveTrain {
     public TwoWheeledDriveTrain(int encoderTicks, double wheelDiameter) {
         super(encoderTicks, wheelDiameter);
     }
-
     @Override
     public void init(HardwareMap hwMap) {
         leftMotor = hwMap.dcMotor.get("left");
