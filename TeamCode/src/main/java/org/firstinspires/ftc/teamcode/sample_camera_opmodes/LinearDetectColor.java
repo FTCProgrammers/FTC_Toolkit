@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import for_camera_opmodes.LinearOpModeCamera;
 
 /**
- * TeleOp Mode
+ * MecanumTeleOp Mode
  * <p/>
  * Enables control of the robot via the gamepad
  */

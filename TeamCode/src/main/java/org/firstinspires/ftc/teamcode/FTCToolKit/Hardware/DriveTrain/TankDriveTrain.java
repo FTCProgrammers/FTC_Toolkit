@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode.FTCToolKit.Hardware.DriveTrain;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -13,14 +15,18 @@ import org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.Toggle;
 import static java.lang.Math.*;
 
 public class TankDriveTrain extends DriveTrain {
-
     private DcMotor rightfront,leftfront,rightback,leftback;
     private BNO055IMU imu;
+    private GyroSensor gyro;
     private Toggle preciseToggle = new Toggle();
     private Toggle newFrontToggle = new Toggle(0.3);
-
-    public TankDriveTrain(int encoderTicks, double wheelDiameter) {
+    private Sensor sensor;
+    public TankDriveTrain(int encoderTicks, double wheelDiameter, Sensor sensor) {
         super(encoderTicks, wheelDiameter);
+        this.sensor = sensor;
+    }
+    public TankDriveTrain(){
+        super();
     }
 
     @Override
@@ -29,16 +35,23 @@ public class TankDriveTrain extends DriveTrain {
         rightfront = hwMap.dcMotor.get("rf");
         leftback = hwMap.dcMotor.get("lb");
         rightback = hwMap.dcMotor.get("rb");
-        imu = hwMap.get(BNO055IMU.class, "imu");
-        //This Initializes the Parameters for the IMU
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        parameters.loggingEnabled = true;
-        parameters.loggingTag = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        imu.initialize(parameters);
+        if (sensor == Sensor.REV) {
+            imu = hwMap.get(BNO055IMU.class, "imu");
+            //This Initializes the Parameters for the IMU
+            BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+            parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+            parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+            parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+            parameters.loggingEnabled = true;
+            parameters.loggingTag = "IMU";
+            parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+            imu.initialize(parameters);
+        } else if (sensor == Sensor.MR){
+            gyro = hwMap.gyroSensor.get("gyro");
+            gyro.calibrate();
+        }
+        rightfront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightback.setDirection(DcMotorSimple.Direction.REVERSE);
         stop();
     }
 
@@ -46,20 +59,13 @@ public class TankDriveTrain extends DriveTrain {
         if (abs(rightpower) < 0.1 && abs(leftpower) < 0.01){
             stop();
         } else {
-            leftfront.setPower(scalePower(speedmultiplier*leftpower));
-            rightfront.setPower(scalePower(speedmultiplier*rightpower));
-            leftback.setPower(scalePower(speedmultiplier*leftpower));
-            rightback.setPower(scalePower(speedmultiplier*rightpower));
+            leftfront.setPower(speedmultiplier*leftpower);
+            rightfront.setPower(speedmultiplier*rightpower);
+            leftback.setPower(speedmultiplier*leftpower);
+            rightback.setPower(speedmultiplier*rightpower);
         }
     }
 
-    private void encoderTelemetry(Telemetry telemetry){
-        telemetry.addData("LB Position", leftback.getCurrentPosition());
-        telemetry.addData("LF Position", leftfront.getCurrentPosition());
-        telemetry.addData("RB Position", rightback.getCurrentPosition());
-        telemetry.addData("RF Position", rightfront.getCurrentPosition());
-        telemetry.update();
-    }
 
     @Override
     public void stop() {
@@ -69,24 +75,38 @@ public class TankDriveTrain extends DriveTrain {
         rightfront.setPower(0);
     }
 
-    public double heading(){
-        //IMU gives a heading between -180 and 180
-        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        return orientation.firstAngle;
+    @Override
+    public void turn(double power, int degrees) throws InterruptedException {
+        double newHeading = getHeading() + degrees;
+        double heading = getHeading();
+        idle();
+        while(heading != newHeading){
+            idle();
+            drive(-power,power);
+            idle();
+        }
     }
 
-    public double getHeading(){
-        //this makes it so the heading range is from 0-360 instead of -180-180
-        double heading = heading();
-        if (heading < 0) {
-            heading += 360;
+    @Override
+    public double getHeading() {
+        double heading;
+        if (sensor == Sensor.MR){
+            heading = gyro.getHeading();
+        } else if (sensor == Sensor.REV){
+            Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            heading = orientation.firstAngle;
+            if (heading < 0){
+                heading+=360;
+            }
+        } else {
+            heading = 1;
         }
         return heading;
     }
 
-
     @Override
     public void driveControlled(Gamepad gamepad) {
+        setDefaultSpeed();
         if (gamepad.x)
             newFrontToggle.toggle();
 
@@ -197,7 +217,10 @@ public class TankDriveTrain extends DriveTrain {
     public void logTelemetry(Telemetry telemetry) {
         telemetry.addLine("Drivetrain debugging");
         if (isBusy()) {
-            encoderTelemetry(telemetry);
+            telemetry.addData("LB Position", leftback.getCurrentPosition());
+            telemetry.addData("LF Position", leftfront.getCurrentPosition());
+            telemetry.addData("RB Position", rightback.getCurrentPosition());
+            telemetry.addData("RF Position", rightfront.getCurrentPosition());
             telemetry.addData("Left Front Power", leftfront.getPower());
             telemetry.addData("Right Front Power", rightfront.getPower());
             telemetry.addData("Left Back Power", leftback.getPower());

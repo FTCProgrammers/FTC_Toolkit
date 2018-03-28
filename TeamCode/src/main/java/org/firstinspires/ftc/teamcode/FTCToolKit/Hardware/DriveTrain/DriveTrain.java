@@ -2,9 +2,11 @@ package org.firstinspires.ftc.teamcode.FTCToolKit.Hardware.DriveTrain;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.FTCToolKit.Robot;
+import org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.Constants;
+import org.opencv.core.Mat;
+
 public abstract class DriveTrain extends Robot {
     protected double speedmultiplier = 1.0;
     protected ElapsedTime runtime = new ElapsedTime();
@@ -13,48 +15,34 @@ public abstract class DriveTrain extends Robot {
     public void setDefaultSpeed(){
         speedmultiplier = 1.0;
     }
-    public void changeSpeed(double speedmultiplier){
-        this.speedmultiplier = speedmultiplier;
+    public void changeSpeed(double speed){
+        speedmultiplier = speed;
     }
+
     public DriveTrain(int encoderTicks, double wheelDiameter){
         this.encoderticks = encoderTicks;
         wheelCircumference = Math.PI * wheelDiameter;
+    }
+
+    public DriveTrain(double wheelDiameter){
+        encoderticks = Constants.ANDYMARK_MOTOR_TICKS;
+        wheelCircumference = Math.PI * wheelDiameter;
+    }
+
+    public DriveTrain(){
+        encoderticks = Constants.ANDYMARK_MOTOR_TICKS;
+        wheelCircumference = Math.PI * Constants.inWheelDiameter;
     }
 
     public enum Direction {
         FORWARDS,BACKWARDS,LEFT,RIGHT
     }
 
-    public double scalePower(double power) {
-        //This Is The Power Scaling Method
-        float scaledPower;
-        power = Range.clip(power, -1, 1);
-        float[] possiblePowerValues = {
-                0.00f, 0.05f, 0.09f, 0.10f, 0.12f,
-                0.15f, 0.18f, 0.24f, 0.30f, 0.36f,
-                0.43f, 0.50f, 0.60f, 0.72f, 0.85f,
-                1.00f, 1.00f
-        };
-        int powerIndex = (int) (power * 16.0);
-        if (powerIndex < 0) {
-            powerIndex = -powerIndex;
-        } else if (powerIndex > 16) {
-            powerIndex = 16;
-        }
-        if (power < 0) {
-            scaledPower = -possiblePowerValues[powerIndex];
-        } else {
-            scaledPower = possiblePowerValues[powerIndex];
-        }
-        return scaledPower;
-    }
-
-    public void resetEncoders() {
+    protected void resetEncoders() {
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-
-    public abstract double heading();
+    public abstract void turn(double power, int degrees) throws InterruptedException;
     public abstract double getHeading();
     public abstract void turn(double power, double angle) throws InterruptedException;
     public abstract void driveControlled(Gamepad gamepad);

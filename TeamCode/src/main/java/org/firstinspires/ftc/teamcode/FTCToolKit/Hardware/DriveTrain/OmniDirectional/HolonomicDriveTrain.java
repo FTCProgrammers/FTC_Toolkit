@@ -7,18 +7,20 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.FTCToolKit.Hardware.DriveTrain.Sensor;
+
 import static java.lang.Math.*;
 //This class has code for Holonomic Drivetrains
 public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
 
-    public HolonomicDriveTrain(int encoderTicks, double wheelDiameter) {
-        super(encoderTicks, wheelDiameter);
+    public HolonomicDriveTrain(int encoderTicks, double wheelDiameter, Sensor sensor) {
+        super(encoderTicks, wheelDiameter, sensor);
     }
 
     @Override
     public void turn(double power, double angle) throws InterruptedException {
         stop();
-        double startHeading = heading();
+        double startHeading = getHeading();
         double currentHeading = getHeading() - startHeading;
         while(abs(currentHeading - angle) > 1) { //1 degree error margin
             currentHeading = getHeading() - startHeading;
@@ -36,17 +38,8 @@ public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
         drive(x,y,z);
     }
 
-    public void rotate(double z) {
-        drive(0.0, 0.0, z);
-    }
-
-    private void encoderTelemetry(Telemetry telemetry) throws InterruptedException {
-        telemetry.addData("LB Position", leftback.getCurrentPosition());
-        telemetry.addData("LF Position", leftfront.getCurrentPosition());
-        telemetry.addData("RB Position", rightback.getCurrentPosition());
-        telemetry.addData("RF Position", rightfront.getCurrentPosition());
-        telemetry.addData("Heading", getHeading());
-        telemetry.update();
+    private void rotate(double z) {
+        drive(0, 0, z);
     }
 
     @Override
@@ -56,16 +49,24 @@ public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public double heading(){
-        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        return orientation.firstAngle;
+    @Override
+    public void turn(double power, int degrees) throws InterruptedException {
+
     }
 
-    public double getHeading(){
-        //this makes it so the heading range is from 0-360 instead of -180-180
-        double heading = heading();
-        if (heading < 0) {
-            heading += 360;
+    @Override
+    public double getHeading() {
+        double heading;
+        if (sensor == Sensor.MR){
+            heading = gyro.getHeading();
+        } else if (sensor == Sensor.REV){
+            Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            heading = orientation.firstAngle;
+            if (heading < 0){
+                heading+=360;
+            }
+        } else {
+            heading = 1;
         }
         return heading;
     }
@@ -88,15 +89,15 @@ public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
         double theta = getHeading();
         double X = speedmultiplier*(x*cos(theta) - y*sin(theta));
         double Y = speedmultiplier*(x*sin(theta) + y*cos(theta));
-        double Z = speedmultiplier*z;//I did this so it looks less weird
+        double Z = speedmultiplier*z;
         if(abs(x) < 0.01 && abs(y) < 0.01 && abs(z) < 0.01) {
             stop();
         } else {
             //This makes it so one stick powers the whole drivetrain and the other powers rotation
-            leftfront.setPower(scalePower(Y + X + Z));
-            rightfront.setPower(scalePower(Y - X - Z));
-            leftback.setPower(scalePower(Y - X + Z));
-            rightback.setPower(scalePower(Y + X - Z));
+            leftfront.setPower(-Y - X - Z);
+            rightfront.setPower(Y - X - Z);
+            leftback.setPower(-Y + X - Z);
+            rightback.setPower(Y + X - Z);
         }
     }
 
@@ -109,10 +110,10 @@ public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
             stop();
         } else {
             //This makes it so one stick powers the whole drivetrain and the other powers rotation
-            leftfront.setPower(scalePower(y + x + z));
-            rightfront.setPower(scalePower(y - x - z));
-            leftback.setPower(scalePower(y - x + z));
-            rightback.setPower(scalePower(y + x - z));
+            leftfront.setPower(-y - x - z);
+            rightfront.setPower(y - x - z);
+            leftback.setPower(-y + x - z);
+            rightback.setPower(y + x - z);
         }
     }
 
@@ -155,20 +156,6 @@ public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
 
     @Override
     public void logTelemetry(Telemetry telemetry) {
-        telemetry.addLine("Drivetrain debugging");
-        // display encoder positions if it's enabled
-        if(leftfront.getMode() == DcMotor.RunMode.RUN_TO_POSITION || leftfront.getMode() == DcMotor.RunMode.RUN_USING_ENCODER || isBusy()) {
-            try {
-                encoderTelemetry(telemetry);
-            } catch (InterruptedException e) {
-                telemetry.addLine("Error with Encoders");
-            }
-        }
-        // display motor powers
-        telemetry.addData("Left Front Power", leftfront.getPower());
-        telemetry.addData("Right Front Power", rightfront.getPower());
-        telemetry.addData("Left Back Power", leftback.getPower());
-        telemetry.addData("Right Back Power", rightback.getPower());
-        telemetry.update();
+        super.logTelemetry(telemetry);
     }
 }

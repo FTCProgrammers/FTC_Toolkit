@@ -3,6 +3,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -10,50 +11,62 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import static java.lang.Math.*;
-
 public class TwoWheeledDriveTrain extends DriveTrain {
     private DcMotor leftMotor, rightMotor;
     private BNO055IMU imu;
-    public TwoWheeledDriveTrain(int encoderTicks, double wheelDiameter) {
+    private GyroSensor gyro;
+    private Sensor sensor;
+    public TwoWheeledDriveTrain(int encoderTicks, double wheelDiameter, Sensor sensor) {
         super(encoderTicks, wheelDiameter);
+        this.sensor = sensor;
     }
+
     @Override
     public void init(HardwareMap hwMap) {
         leftMotor = hwMap.dcMotor.get("left");
         rightMotor = hwMap.dcMotor.get("right");
-        imu = hwMap.get(BNO055IMU.class, "imu");
-        //This Initializes the Parameters for the IMU
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        parameters.loggingEnabled = true;
-        parameters.loggingTag = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        imu.initialize(parameters);
+        if (sensor == Sensor.REV) {
+            imu = hwMap.get(BNO055IMU.class, "imu");
+            //This Initializes the Parameters for the IMU
+            BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+            parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+            parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+            parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+            parameters.loggingEnabled = true;
+            parameters.loggingTag = "IMU";
+            parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+            imu.initialize(parameters);
+        } else if (sensor == Sensor.MR){
+            gyro = hwMap.gyroSensor.get("gyro");
+            gyro.calibrate();
+        } else {
+            gyro = null;
+            imu = null;
+        }
     }
 
     public void drive(double rightpower, double leftpower){
         if (abs(rightpower) > 0.1 && abs(leftpower) > 0.01 ){
             stop();
         } else {
-            rightMotor.setPower(rightpower);
-            leftMotor.setPower(leftpower);
+            rightMotor.setPower(speedmultiplier*rightpower);
+            leftMotor.setPower(speedmultiplier*leftpower);
         }
     }
 
     @Override
-    public double heading(){
-        //IMU gives a heading between -180 and 180
-        Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        return orientation.firstAngle;
-    }
-    @Override
-    public double getHeading(){
-        //this makes it so the heading range is from 0-360 instead of -180-180
-        double heading = heading();
-        if (heading < 0) {
-            heading += 360;
+    public double getHeading() {
+        double heading;
+        if (sensor == Sensor.MR){
+            heading = gyro.getHeading();
+        } else if (sensor == Sensor.REV){
+            Orientation orientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            heading = orientation.firstAngle;
+            if (heading < 0){
+                heading+=360;
+            }
+        } else {
+            heading = 0;
         }
         return heading;
     }
@@ -72,7 +85,11 @@ public class TwoWheeledDriveTrain extends DriveTrain {
             telemetry.update();
         }
     }
-
+    /**
+     * @param angle
+     * this is the heading that you what the gyro to turn to
+     * NOTE: This does not mean it will turn that angle, however it will turn until it reaches that angle as its heading
+     */
     @Override
     public void turn(double power, double angle) throws InterruptedException {
         double heading = getHeading();
@@ -80,6 +97,13 @@ public class TwoWheeledDriveTrain extends DriveTrain {
             idle();
             drive(power,-power);
             idle();
+        }
+    }
+
+    public void turn(double power, int degrees){
+        double heading = getHeading() + degrees;
+        while (getHeading() != heading){
+            drive(power,-power);
         }
     }
 

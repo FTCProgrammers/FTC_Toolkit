@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import for_camera_opmodes.OpModeCamera;
 
 /**
- * TeleOp Mode
+ * MecanumTeleOp Mode
  * <p/>
  * Enables control of the robot via the gamepad
  */
