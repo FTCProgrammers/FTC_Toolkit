@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.VectorClasses;
 import static java.lang.Math.*;
 
 /**
+ * @author Nathaniel Glover
  * A vector containing two components
  */
 

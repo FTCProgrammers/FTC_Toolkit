@@ -14,8 +14,7 @@ public class RevColorDistanceSensorClass extends Robot{
     }
 
     public void init(HardwareMap hwMap) {
-        sensorColor = hwMap.get(ColorSensor.class, "cds");
-        sensorDistance = hwMap.get(DistanceSensor.class, "cds");
+
     }
 
     @Override

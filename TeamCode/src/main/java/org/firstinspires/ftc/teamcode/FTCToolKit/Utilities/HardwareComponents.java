@@ -1,12 +1,16 @@
 package org.firstinspires.ftc.teamcode.FTCToolKit.Utilities;
 
-/**
- * Created by shaunaksarker on 3/27/18.
- */
-
-public class HardwareComponents {
-    public enum Drivetrains {
+public interface HardwareComponents {
+    enum Drivetrains {
         MECANUM, HOLONOMIC, TANK, TWOWHEELED
     }
-    public enum
+    enum Sensors{
+        REV,MR,NONE
+    }
+
+    enum Motors {
+        LEFT_FRONT,LEFT_BACK,RIGHT_FRONT,RIGHT_BACK
+    }
+    
+    enum GrabSystem{}
 }

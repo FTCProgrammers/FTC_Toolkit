@@ -7,22 +7,17 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.hardware.Camera;
-
 import java.io.IOException;
 
-/**
- * Created by FTC-5648 on 9/15/2015.
- */
+
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder mHolder;
     private Camera mCamera;
     private static String TAG = "DEBUG";
     private Camera.PreviewCallback previewCallback;
-
     public CameraPreview(Context context, Camera camera, Camera.PreviewCallback previewCallback) {
         super(context);
         mCamera = camera;
-
         this.previewCallback = previewCallback;
 
         // Install a SurfaceHolder.Callback so we get notified when the

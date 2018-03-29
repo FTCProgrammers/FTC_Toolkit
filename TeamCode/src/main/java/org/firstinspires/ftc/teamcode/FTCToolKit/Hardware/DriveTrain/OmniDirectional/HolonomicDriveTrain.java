@@ -7,12 +7,22 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.FTCToolKit.Hardware.DriveTrain.Sensor;
+import static org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.HardwareComponents.*;
 
+import org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.Sensor;
 import static java.lang.Math.*;
+import static org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.HardwareComponents.Drivetrains.*;
+
 //This class has code for Holonomic Drivetrains
 public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
-
+    /**
+     * Gives drive train the values it needs to calculate how to properly apply motor powers
+     * when moving and turning autonomously
+     * @param wheelDiameter The diameter of the robot's wheels; unit is unnecessary as long as it is consistent with other distances
+     * @param encoderTicks The number of ticks given off by each motor's
+     *                                encoder each rotation.
+     */
+    private Drivetrains drivetrain = HOLONOMIC;
     public HolonomicDriveTrain(int encoderTicks, double wheelDiameter, Sensor sensor) {
         super(encoderTicks, wheelDiameter, sensor);
     }
@@ -23,8 +33,9 @@ public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
         double startHeading = getHeading();
         double currentHeading = getHeading() - startHeading;
         while(abs(currentHeading - angle) > 1) { //1 degree error margin
+            idle();
             currentHeading = getHeading() - startHeading;
-            rotate(-power * (Math.signum(angle - currentHeading)));
+            drive(0.0,0.0,-power * (Math.signum(angle - currentHeading)));
             idle();
         }
         stop();
@@ -38,10 +49,6 @@ public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
         drive(x,y,z);
     }
 
-    private void rotate(double z) {
-        drive(0, 0, z);
-    }
-
     @Override
     public void init(HardwareMap hwMap) {
         super.init(hwMap);
@@ -51,7 +58,11 @@ public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
 
     @Override
     public void turn(double power, int degrees) throws InterruptedException {
-
+        double startHeading = getHeading();
+        double targetHeading = startHeading + degrees;
+        while (abs(targetHeading - startHeading) > 1){
+         drive(0.0,0.0,-power * (signum(targetHeading - startHeading)));
+        }
     }
 
     @Override
@@ -158,4 +169,5 @@ public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
     public void logTelemetry(Telemetry telemetry) {
         super.logTelemetry(telemetry);
     }
+
 }

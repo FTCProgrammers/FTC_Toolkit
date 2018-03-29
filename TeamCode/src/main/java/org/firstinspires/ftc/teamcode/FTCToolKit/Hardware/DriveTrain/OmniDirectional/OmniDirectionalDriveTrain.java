@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.FTCToolKit.Hardware.DriveTrain.DriveTrain;
-import org.firstinspires.ftc.teamcode.FTCToolKit.Hardware.DriveTrain.Sensor;
+import org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.Sensor;
 import org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.Constants;
 
 public abstract class OmniDirectionalDriveTrain extends DriveTrain {
@@ -15,7 +15,6 @@ public abstract class OmniDirectionalDriveTrain extends DriveTrain {
     DcMotor leftfront, rightfront, rightback, leftback;
     BNO055IMU imu;
     GyroSensor gyro;
-
     protected OmniDirectionalDriveTrain(int encoderTicks, double wheelDiameter, Sensor sensor) {
         super(encoderTicks, wheelDiameter);
         this.sensor = sensor;
@@ -23,6 +22,7 @@ public abstract class OmniDirectionalDriveTrain extends DriveTrain {
 
     protected OmniDirectionalDriveTrain(){
         super();
+        sensor = Sensor.NONE;
     }
 
     protected OmniDirectionalDriveTrain(double wheelDiameter){

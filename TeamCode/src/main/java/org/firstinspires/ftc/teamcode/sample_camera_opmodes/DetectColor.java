@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.sample_camera_opmodes;
-
 import android.graphics.Bitmap;
-
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import for_camera_opmodes.OpModeCamera;
 
 /**

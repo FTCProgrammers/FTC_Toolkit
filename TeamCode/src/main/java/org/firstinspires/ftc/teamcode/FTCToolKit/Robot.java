@@ -4,10 +4,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public abstract class Robot {
-
-    protected abstract void init(HardwareMap hwMap);
+    public abstract void init(HardwareMap hwMap);
     protected abstract void logTelemetry(Telemetry telemetry);
-    protected void waitFor(double seconds) throws InterruptedException {
+    public void waitFor(double seconds) throws InterruptedException {
         int miliseconds = (int) seconds * 1000 + 1;
         Thread.sleep(miliseconds);
     }

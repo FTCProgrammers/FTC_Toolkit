@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.FTCToolKit.Utilities;
 
+/**
+ * Class where you keep all your constants
+ */
 public class Constants {
     public static final int ANDYMARK_MOTOR_TICKS = 1120;
     public static final int TETRIX_MOTOR_TICKS = 1440;

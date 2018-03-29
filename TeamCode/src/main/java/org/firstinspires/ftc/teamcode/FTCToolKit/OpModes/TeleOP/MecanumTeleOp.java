@@ -1,20 +1,21 @@
 package org.firstinspires.ftc.teamcode.FTCToolKit.OpModes.TeleOP;
-
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.Constants;
+import org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.Sensor;
+import static org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.HardwareComponents.*;
 
-import org.firstinspires.ftc.teamcode.FTCToolKit.Hardware.DriveTrain.OmniDirectional.MecanumDriveTrain;
 @TeleOp(name = "Mecanum Bot Tele")
-public class MecanumTeleOp extends OpMode {
-    private MecanumDriveTrain driveTrain = new MecanumDriveTrain();
+public class MecanumTeleOp extends TeleOpBase {
+    public MecanumTeleOp(){
+        super(Drivetrains.MECANUM, Constants.ANDYMARK_MOTOR_TICKS,Constants.inWheelDiameter, Sensor.REV);
+    }
     @Override
     public void init() {
-        driveTrain.init(hardwareMap);
-        driveTrain.setDefaultSpeed();
+        super.init();
     }
 
     @Override
     public void loop() {
-        driveTrain.driveControlled(gamepad1);
+        mecanumDriveTrain.driveControlled(gamepad1);
     }
 }

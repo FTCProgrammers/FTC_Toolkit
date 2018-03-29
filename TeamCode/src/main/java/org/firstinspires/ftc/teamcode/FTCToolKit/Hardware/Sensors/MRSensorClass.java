@@ -14,8 +14,6 @@ public class MRSensorClass extends Robot {
     }
     @Override
     public void init(HardwareMap hwMap) {
-        sensorColor = hwMap.colorSensor.get("cs");
-        ods = hwMap.opticalDistanceSensor.get("ods");
     }
 
     @Override

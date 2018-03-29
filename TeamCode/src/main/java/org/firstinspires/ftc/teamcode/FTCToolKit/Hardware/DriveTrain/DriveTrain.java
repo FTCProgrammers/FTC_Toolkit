@@ -42,6 +42,7 @@ public abstract class DriveTrain extends Robot {
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
     public abstract void turn(double power, int degrees) throws InterruptedException;
     public abstract double getHeading();
     public abstract void turn(double power, double angle) throws InterruptedException;

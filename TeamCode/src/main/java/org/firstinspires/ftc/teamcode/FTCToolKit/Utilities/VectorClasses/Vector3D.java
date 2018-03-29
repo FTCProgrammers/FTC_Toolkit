@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.VectorClasses;
 import static java.lang.Math.*;
 
 /**
+ * @author Nathan Glover
  * A vector containing three components
  */
 public class Vector3D {
@@ -50,6 +51,7 @@ public class Vector3D {
      * @param multiplier The vector with which this one will be multiplied
      * @return The cross product of the two vectors
      */
+
     public Vector3D cross(Vector3D multiplier) {
         return new Vector3D(
                 (y * multiplier.z) - (z * multiplier.y),

@@ -7,7 +7,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.FTCToolKit.Hardware.DriveTrain.Sensor;
+import org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.Sensor;
 import org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.Toggle;
 import static java.lang.Math.*;
 public class MecanumDriveTrain extends OmniDirectionalDriveTrain {
@@ -19,7 +19,6 @@ public class MecanumDriveTrain extends OmniDirectionalDriveTrain {
 
     public MecanumDriveTrain(){
         super();
-        sensor = Sensor.NONE;
     }
 
     public MecanumDriveTrain(double wheelDiameter){
