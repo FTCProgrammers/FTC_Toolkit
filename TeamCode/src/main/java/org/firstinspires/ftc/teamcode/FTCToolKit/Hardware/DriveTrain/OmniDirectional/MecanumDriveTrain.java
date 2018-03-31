@@ -28,10 +28,14 @@ public class MecanumDriveTrain extends OmniDirectionalDriveTrain {
 
     @Override
     public void turn(double power, int degrees) throws InterruptedException {
+        runtime.reset();
         double heading = getHeading();
+        idle();
         double newHeading = getHeading() + degrees;
         while(heading != newHeading){
+            idle();
             drive(0,0,-power);
+            idle();
         }
     }
 
@@ -53,7 +57,7 @@ public class MecanumDriveTrain extends OmniDirectionalDriveTrain {
     }
 
     @Override
-    public void turn(double power, double angle) {
+    public void rotate(double power, double angle) {
 
     }
 
@@ -112,7 +116,7 @@ public class MecanumDriveTrain extends OmniDirectionalDriveTrain {
         rightfront.setTargetPosition((int) (position * signum(sin(angle))));
         rightback.setTargetPosition((int) (position * signum(sin(angle))));
 
-        mecanumMoveAndTurn(speed, angle, 0);
+        mecanumMoveAndTurn(speed, angle);
 
         while(isBusy()) {
             idle();
@@ -136,10 +140,10 @@ public class MecanumDriveTrain extends OmniDirectionalDriveTrain {
     }
 
 
-    private void mecanumMoveAndTurn(double movePower, double angle, double turnPower) {
+    private void mecanumMoveAndTurn(double movePower, double angle) {
         double x = cos(toRadians(angle)) * movePower;
         double y = sin(toRadians(angle)) * movePower;
-        drive(x,y,turnPower);
+        drive(x,y,0);
     }
 
     @Override
@@ -253,8 +257,8 @@ public class MecanumDriveTrain extends OmniDirectionalDriveTrain {
 
     /**
      * @param x This is the strafing value
-     * @param y This is the left side wheel value
-     * @param z This is the right side wheel value
+     * @param y This is the left side power value
+     * @param z This is the right side power value
      */
     private void dualStickDrive(double x, double y, double z) {
         //Another option for Mecanum Driving where Y controls the left stick and Z controls the right stick

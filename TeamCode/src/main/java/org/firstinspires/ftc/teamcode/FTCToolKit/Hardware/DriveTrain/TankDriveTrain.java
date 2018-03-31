@@ -26,6 +26,14 @@ public class TankDriveTrain extends DriveTrain {
         super(encoderTicks, wheelDiameter);
         this.sensor = sensor;
     }
+    public TankDriveTrain(int encoderTicks, double wheelDiameter) {
+        super(encoderTicks, wheelDiameter);
+        sensor = Sensor.NONE;
+    }
+    public TankDriveTrain(double wheelDiameter){
+        super(wheelDiameter);
+        sensor = Sensor.NONE;
+    }
     public TankDriveTrain(){
         super();
     }
@@ -153,7 +161,7 @@ public class TankDriveTrain extends DriveTrain {
     }
 
     @Override
-    public void driveByTime(double speed, int seconds, Direction direction, Telemetry telemetry) {
+    public void driveByTime(double speed, int seconds, Direction direction, Telemetry telemetry) throws InterruptedException {
         runtime.reset();
         switch (direction){
             case FORWARDS:
@@ -171,7 +179,7 @@ public class TankDriveTrain extends DriveTrain {
     }
 
     @Override
-    public void turn(double power, double angle) throws InterruptedException {
+    public void rotate(double power, double angle) throws InterruptedException {
         double heading = getHeading();
         idle();
         while(angle != heading){

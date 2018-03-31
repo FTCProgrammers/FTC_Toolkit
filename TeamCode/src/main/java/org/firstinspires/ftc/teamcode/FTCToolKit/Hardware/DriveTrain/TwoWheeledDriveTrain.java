@@ -47,7 +47,7 @@ public class TwoWheeledDriveTrain extends DriveTrain {
         }
     }
 
-    public void drive(double rightpower, double leftpower){
+    private void drive(double rightpower, double leftpower){
         if (abs(rightpower) > 0.1 && abs(leftpower) > 0.01 ){
             stop();
         } else {
@@ -93,7 +93,7 @@ public class TwoWheeledDriveTrain extends DriveTrain {
      * NOTE: This does not mean it will turn that angle, however it will turn until it reaches that angle as its heading
      */
     @Override
-    public void turn(double power, double angle) throws InterruptedException {
+    public void rotate(double power, double angle) throws InterruptedException {
         double heading = getHeading();
         while(angle != heading){
             idle();
@@ -157,8 +157,8 @@ public class TwoWheeledDriveTrain extends DriveTrain {
             case FORWARDS:
                 idle();
                 setTargetPosition(target);
-                setMotorPower(speed);
                 setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                drive(speed,speed);
                 while(isBusy()){
                     logTelemetry(telemetry);
                 }
@@ -166,8 +166,8 @@ public class TwoWheeledDriveTrain extends DriveTrain {
             case BACKWARDS:
                 idle();
                 setTargetPosition(-target);
-                setMotorPower(speed);
                 setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                drive(-speed,-speed);
                 while(isBusy()){
                     logTelemetry(telemetry);
                 }

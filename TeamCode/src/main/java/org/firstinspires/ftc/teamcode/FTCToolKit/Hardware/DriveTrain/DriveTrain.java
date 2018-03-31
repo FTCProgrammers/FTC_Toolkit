@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.FTCToolKit.Robot;
 import org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.Constants;
-import org.opencv.core.Mat;
-
 public abstract class DriveTrain extends Robot {
     protected double speedmultiplier = 1.0;
     protected ElapsedTime runtime = new ElapsedTime();
@@ -45,7 +43,7 @@ public abstract class DriveTrain extends Robot {
 
     public abstract void turn(double power, int degrees) throws InterruptedException;
     public abstract double getHeading();
-    public abstract void turn(double power, double angle) throws InterruptedException;
+    public abstract void rotate(double power, double angle) throws InterruptedException;
     public abstract void driveControlled(Gamepad gamepad);
     public abstract void stop();
     public abstract boolean isBusy();

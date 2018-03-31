@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.FTCToolKit.Utilities;
-
 public interface HardwareComponents {
+
     enum Drivetrains {
         MECANUM, HOLONOMIC, TANK, TWOWHEELED
     }
+
     enum Sensors{
         REV,MR,NONE
     }
@@ -11,6 +12,12 @@ public interface HardwareComponents {
     enum Motors {
         LEFT_FRONT,LEFT_BACK,RIGHT_FRONT,RIGHT_BACK
     }
-    
-    enum GrabSystem{}
+
+    enum GrabSystem{
+        SERVO, WHEELEDINTAKE, ELSE
+    }
+
+    Drivetrains getDrivetrain();
 }
+
+
