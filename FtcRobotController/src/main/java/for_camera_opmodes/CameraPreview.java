@@ -1,5 +1,4 @@
 package for_camera_opmodes;
-
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -8,7 +7,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.hardware.Camera;
 import java.io.IOException;
-
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder mHolder;
