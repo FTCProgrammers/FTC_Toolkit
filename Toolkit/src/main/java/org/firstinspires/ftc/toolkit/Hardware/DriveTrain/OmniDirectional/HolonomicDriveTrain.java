@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.FTCToolKit.Hardware.DriveTrain.OmniDirectional;
+package org.firstinspires.ftc.toolkit.Hardware.DriveTrain.OmniDirectional;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -7,12 +7,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import static org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.HardwareComponents.*;
-
-import org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.Sensor;
+import static org.firstinspires.ftc.toolkit.Utilities.HardwareComponents.*;
+import org.firstinspires.ftc.toolkit.Utilities.Sensor;
 import static java.lang.Math.*;
-import static org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.HardwareComponents.Drivetrains.*;
-
+import static org.firstinspires.ftc.toolkit.Utilities.HardwareComponents.Drivetrains.*;
 //This class has code for Holonomic Drivetrains
 public class HolonomicDriveTrain extends OmniDirectionalDriveTrain {
     /**

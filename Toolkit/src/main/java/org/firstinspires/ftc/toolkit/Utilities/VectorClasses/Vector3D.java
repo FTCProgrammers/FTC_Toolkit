@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.VectorClasses;
+package org.firstinspires.ftc.toolkit.Utilities.VectorClasses;
 
 import static java.lang.Math.*;
 
@@ -21,7 +21,7 @@ public class Vector3D {
     /**
      * Constructs an empty vector
      */
-    private Vector3D() {
+    public Vector3D() {
         this(0, 0, 0);
     }
 

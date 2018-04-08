@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.FTCToolKit.PhoneCamera.Vuforia;
+package org.firstinspires.ftc.toolkit.PhoneCamera.Vuforia;
 
 public enum CameraSide {
     /**

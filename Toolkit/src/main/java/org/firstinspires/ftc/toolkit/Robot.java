@@ -1,8 +1,6 @@
-package org.firstinspires.ftc.teamcode.FTCToolKit;
+package org.firstinspires.ftc.toolkit;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 public abstract class Robot {
     public abstract void init(HardwareMap hwMap);
     protected abstract void logTelemetry(Telemetry telemetry);

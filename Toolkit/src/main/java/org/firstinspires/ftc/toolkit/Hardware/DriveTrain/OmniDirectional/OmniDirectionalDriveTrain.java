@@ -1,14 +1,13 @@
-package org.firstinspires.ftc.teamcode.FTCToolKit.Hardware.DriveTrain.OmniDirectional;
+package org.firstinspires.ftc.toolkit.Hardware.DriveTrain.OmniDirectional;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.FTCToolKit.Hardware.DriveTrain.DriveTrain;
-import org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.Sensor;
-import org.firstinspires.ftc.teamcode.FTCToolKit.Utilities.Constants;
+import org.firstinspires.ftc.toolkit.Hardware.DriveTrain.DriveTrain;
+import org.firstinspires.ftc.toolkit.Utilities.Sensor;
+import org.firstinspires.ftc.toolkit.Utilities.Constants;
 
 public abstract class OmniDirectionalDriveTrain extends DriveTrain {
     Sensor sensor;
