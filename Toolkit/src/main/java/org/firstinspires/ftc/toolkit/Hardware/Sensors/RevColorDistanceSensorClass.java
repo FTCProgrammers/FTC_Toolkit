@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.FTCToolKit.Hardware.Sensors;
+package org.firstinspires.ftc.toolkit.Hardware.Sensors;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.FTCToolKit.Robot;
+import org.firstinspires.ftc.toolkit.Robot;
 
 public class RevColorDistanceSensorClass extends Robot{
     public ColorSensor sensorColor;
