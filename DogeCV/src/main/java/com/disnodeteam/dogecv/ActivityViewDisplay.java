@@ -32,7 +32,7 @@ import android.view.View;
 
 public class ActivityViewDisplay implements ViewDisplay {
     private static ActivityViewDisplay instance;
-    private static View main = null;
+    private static View main;
 
     private ActivityViewDisplay() {
     }

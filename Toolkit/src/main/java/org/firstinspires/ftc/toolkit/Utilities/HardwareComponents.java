@@ -5,7 +5,7 @@ public interface HardwareComponents {
         MECANUM, HOLONOMIC, TANK, TWOWHEELED
     }
 
-    enum Sensors{
+    enum Sensors {
         REV,MR,NONE
     }
 

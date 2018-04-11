@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.toolkit.Utilities.VectorClasses;
+package org.firstinspires.ftc.toolkit.Utilities.Math.VectorClasses;
 
 import static java.lang.Math.*;
 

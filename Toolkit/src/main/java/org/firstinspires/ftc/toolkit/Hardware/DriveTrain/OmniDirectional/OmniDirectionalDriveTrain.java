@@ -2,6 +2,7 @@ package org.firstinspires.ftc.toolkit.Hardware.DriveTrain.OmniDirectional;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.toolkit.Utilities.Constants;
 
 public abstract class OmniDirectionalDriveTrain extends DriveTrain {
     Sensor sensor;
-    DcMotor leftfront, rightfront, rightback, leftback;
+    DcMotorEx leftfront, rightfront, rightback, leftback;
     BNO055IMU imu;
     GyroSensor gyro;
     protected OmniDirectionalDriveTrain(int encoderTicks, double wheelDiameter, Sensor sensor) {
@@ -52,10 +53,10 @@ public abstract class OmniDirectionalDriveTrain extends DriveTrain {
         }
     }
     public void init(HardwareMap hwMap) {
-        leftfront = hwMap.dcMotor.get("lf");
-        rightfront = hwMap.dcMotor.get("rf");
-        leftback = hwMap.dcMotor.get("lb");
-        rightback = hwMap.dcMotor.get("rb");
+        leftfront = (DcMotorEx) hwMap.dcMotor.get("lf");
+        rightfront = (DcMotorEx) hwMap.dcMotor.get("rf");
+        leftback = (DcMotorEx) hwMap.dcMotor.get("lb");
+        rightback = (DcMotorEx) hwMap.dcMotor.get("rb");
         if (sensor == Sensor.REV) {
             imu = hwMap.get(BNO055IMU.class, "imu");
             //This Initializes the Parameters for the IMU
