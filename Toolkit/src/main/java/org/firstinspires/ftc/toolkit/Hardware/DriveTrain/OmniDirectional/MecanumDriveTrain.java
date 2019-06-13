@@ -260,6 +260,7 @@ public class MecanumDriveTrain extends OmniDirectionalDriveTrain {
      * @param y This is the left side power value
      * @param z This is the right side power value
      */
+
     private void dualStickDrive(double x, double y, double z) {
         //Another option for Mecanum Driving where Y controls the left stick and Z controls the right stick
         if(abs(x) < 0.01 && abs(y) < 0.01 && abs(z) < 0.01) {
